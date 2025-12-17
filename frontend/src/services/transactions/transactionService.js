@@ -1,5 +1,4 @@
 import axios from "axios";
-import { BASE_URL } from "../../utils/url";
 import { getUserFromStorage } from "../../utils/getUserFromStorage";
 
 //! Get the token
@@ -14,7 +13,7 @@ export const addTransactionAPI = async ({
   amount,
 }) => {
   const response = await axios.post(
-    `${BASE_URL}/transactions/create`,
+    `${import.meta.env.VITE_API_KEY}/transactions/create`,
     {
       category,
       date,
@@ -35,7 +34,7 @@ export const addTransactionAPI = async ({
  //! update
 // export const updateCategoryAPI = async ({ name, type, id }) => {
 //   const response = await axios.put(
-//     `${BASE_URL}/transactions/update/${id}`,
+//     `${import.meta.env.VITE_API_KEY}/transactions/update/${id}`,
 //     {
 //       name,
 //       type,
@@ -53,7 +52,7 @@ export const addTransactionAPI = async ({
 //! delete
 export const deleteCategoryAPI = async (id) => {
 
-  const response = await axios.delete(`${BASE_URL}/transactions/delete/${id}`, {
+  const response = await axios.delete(`${import.meta.env.VITE_API_KEY}/transactions/delete/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -69,7 +68,7 @@ export const listTransactionsAPI = async ({
   startDate,
   endDate,
 }) => {
-  const response = await axios.get(`${BASE_URL}/transactions/lists`, {
+  const response = await axios.get(`${import.meta.env.VITE_API_KEY}/transactions/lists`, {
     params: { category, endDate, startDate, type },
     headers: {
       Authorization: `Bearer ${token}`,
@@ -82,7 +81,7 @@ export const listTransactionsAPI = async ({
 //! API to extract transaction from voice
 export const extractTransactionFromVoiceAPI = async (input) => {
   const response = await axios.post(
-    `${BASE_URL}/gemini/extract-transaction`,
+    `${import.meta.env.VITE_API_KEY}/gemini/extract-transaction`,
     { input },
     {
       headers: {

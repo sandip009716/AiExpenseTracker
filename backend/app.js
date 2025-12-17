@@ -15,7 +15,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => console.log("Database connect
 
 //! cors config
 const corsOptions = {
-    origin:['http://localhost:5173'],
+    origin:process.env.CLIENT_URL,
 };
 app.use(cors(corsOptions));
 

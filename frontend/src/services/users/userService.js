@@ -1,12 +1,11 @@
 import axios from "axios";
-import { BASE_URL } from "../../utils/url";
 import { getUserFromStorage } from "../../utils/getUserFromStorage";
 //! Get the token
 const token = getUserFromStorage();
 
 //! Login
 export const loginAPI = async ({ email, password }) => {
-  const response = await axios.post(`${BASE_URL}/users/login`, {
+  const response = await axios.post(`${import.meta.env.VITE_API_KEY}/users/login`, {
     email,
     password,
   });
@@ -16,7 +15,7 @@ export const loginAPI = async ({ email, password }) => {
 
 //! register
 export const registerAPI = async ({ email, password, username }) => {
-  const response = await axios.post(`${BASE_URL}/users/register`, {
+  const response = await axios.post(`${import.meta.env.VITE_API_KEY}/users/register`, {
     email,
     password,
     username,
@@ -28,7 +27,7 @@ export const registerAPI = async ({ email, password, username }) => {
 //! change password
 export const changePasswordAPI = async (newPassword) => {
   const response = await axios.put(
-    `${BASE_URL}/users/change-password`,
+    `${import.meta.env.VITE_API_KEY}/users/change-password`,
     {
       newPassword,
     },
@@ -45,7 +44,7 @@ export const changePasswordAPI = async (newPassword) => {
 //! update Profile
 export const updateProfileAPI = async ({ email, username }) => {
   const response = await axios.put(
-    `${BASE_URL}/users/update-profile`,
+    `${import.meta.env.VITE_API_KEY}/users/update-profile`,
     {
       email,
       username,

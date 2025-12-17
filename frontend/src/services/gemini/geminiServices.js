@@ -1,11 +1,10 @@
 import axios from "axios";
-import { BASE_URL } from "../../utils/url";
 import { getUserFromStorage } from "../../utils/getUserFromStorage";
 
 const token = getUserFromStorage();
 
 export const startChatSessionAPI = async () => {
-  const res = await axios.post(`${BASE_URL}/gemini/start`, {}, {
+  const res = await axios.post(`${import.meta.env.VITE_API_KEY}/gemini/start`, {}, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -14,7 +13,7 @@ export const startChatSessionAPI = async () => {
 };
 
 export const sendGeminiMessageAPI = async (prompt) => {
-  const res = await axios.post(`${BASE_URL}/gemini/chat`, { prompt }, {
+  const res = await axios.post(`${import.meta.env.VITE_API_KEY}/gemini/chat`, { prompt }, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
