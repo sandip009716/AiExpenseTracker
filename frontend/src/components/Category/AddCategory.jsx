@@ -58,6 +58,7 @@ const AddCategory = () => {
 
       recognition.onresult = async (event) => {
         const voiceText = event.results[0][0].transcript;
+        console.log("Raw voice input:", voiceText);
         setListening(false);
         setVoiceLoading(true); 
         try {
@@ -85,7 +86,7 @@ const AddCategory = () => {
   }, []);
 
   const handleVoiceAdd = () => {
-    if (recognitionRef.current) {
+    if (recognitionRef.current && !listening) {
       setListening(true);
       recognitionRef.current.start(); // Ask permission and start mic
     } else {

@@ -1,9 +1,6 @@
 import axios from "axios";
 import { getUserFromStorage } from "../../utils/getUserFromStorage";
 
-//! Get the token
-const token = getUserFromStorage();
-
 //! Add
 export const addTransactionAPI = async ({
   type,
@@ -23,7 +20,7 @@ export const addTransactionAPI = async ({
     },
     {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getUserFromStorage()}`,
       },
     }
   );
@@ -41,7 +38,7 @@ export const addTransactionAPI = async ({
 //     },
 //     {
 //       headers: {
-//         Authorization: `Bearer ${token}`,
+//         Authorization: `Bearer ${getUserFromStorage()}`,
 //       },
 //     }
 //   );
@@ -54,7 +51,7 @@ export const deleteCategoryAPI = async (id) => {
 
   const response = await axios.delete(`${import.meta.env.VITE_API_KEY}/transactions/delete/${id}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${getUserFromStorage()}`,
     },
   });
   //Return a promise
@@ -71,7 +68,7 @@ export const listTransactionsAPI = async ({
   const response = await axios.get(`${import.meta.env.VITE_API_KEY}/transactions/lists`, {
     params: { category, endDate, startDate, type },
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${getUserFromStorage()}`,
     },
   });
   //Return a promise
@@ -85,7 +82,7 @@ export const extractTransactionFromVoiceAPI = async (input) => {
     { input },
     {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getUserFromStorage()}`,
       },
     }
   );

@@ -8,6 +8,7 @@ const ChatBotPage = () => {
   const [loading, setLoading] = useState(false);
   const [listening, setListening] = useState(false);
   const [voicesReady, setVoicesReady] = useState(false);
+  const [error, setError] = useState(null);
 
   const chatEndRef = useRef(null);
   const recognitionRef = useRef(null);
@@ -50,11 +51,22 @@ const ChatBotPage = () => {
     if (!voicesReady) return;
     (async () => {
       setLoading(true);
-      const res = await startChatSessionAPI();
-      const reply = cleanText(res.reply);
-      setMessages([{ sender: "bot", text: reply }]);
-      speakText(reply);
-      setLoading(false);
+      setError(null);
+      try {
+        const res = await startChatSessionAPI();
+        if (res && res.reply) {
+          const reply = cleanText(res.reply);
+          setMessages([{ sender: "bot", text: reply }]);
+          speakText(reply);
+        } else {
+          throw new Error("No response from assistant");
+        }
+      } catch (err) {
+        console.error("Init Error:", err);
+        setError("Failed to connect to Gemini. Please refresh.");
+      } finally {
+        setLoading(false);
+      }
     })();
   }, [voicesReady]);
 
@@ -76,11 +88,22 @@ const ChatBotPage = () => {
     setMessages((m) => [...m, { sender: "user", text: inputText }]);
     setPrompt("");
     setLoading(true);
-    const res = await sendGeminiMessageAPI(inputText);
-    const reply = cleanText(res.reply);
-    setMessages((m) => [...m, { sender: "bot", text: reply }]);
-    speakText(reply);
-    setLoading(false);
+    setError(null);
+    try {
+      const res = await sendGeminiMessageAPI(inputText);
+      if (res && res.reply) {
+        const reply = cleanText(res.reply);
+        setMessages((m) => [...m, { sender: "bot", text: reply }]);
+        speakText(reply);
+      } else {
+        throw new Error("No response from assistant");
+      }
+    } catch (err) {
+      console.error("Chat Error:", err);
+      setMessages((m) => [...m, { sender: "bot", text: "Sorry, I'm having trouble connecting right now. Please try again." }]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const toggleMic = () => {
@@ -109,9 +132,14 @@ const ChatBotPage = () => {
         ))}
         {loading && (
           <div className="flex justify-start">
-            <div className="bg-white text-gray-700 border p-3 rounded-xl text-sm shadow-md">
+            <div className="bg-white text-gray-700 border p-3 rounded-xl text-sm shadow-md animate-pulse">
               Gemini is typing...
             </div>
+          </div>
+        )}
+        {error && (
+          <div className="text-center text-red-500 text-xs mt-2 bg-red-50 p-2 rounded">
+            {error}
           </div>
         )}
         <div ref={chatEndRef} />

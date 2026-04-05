@@ -15,7 +15,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => console.log("Database connect
 
 //! cors config
 const corsOptions = {
-    origin:process.env.CLIENT_URL,
+    origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", process.env.CLIENT_URL],
 };
 app.use(cors(corsOptions));
 
@@ -23,10 +23,10 @@ app.use(cors(corsOptions));
 app.use(express.json()); // To parse JSON bodies
 
 //! Routes
-app.use("/", userRouter);
-app.use("/", categoryRouter);
-app.use("/", transactionRouter);
-app.use("/", geminiRouter);
+app.use("/api/v1", userRouter);
+app.use("/api/v1", categoryRouter);
+app.use("/api/v1", transactionRouter);
+app.use("/api/v1", geminiRouter);
 
 //! Error handling middleware
 app.use(errorHandler);

@@ -1,8 +1,5 @@
 import axios from "axios";
 import { getUserFromStorage } from "../../utils/getUserFromStorage";
-//! Get the token
-const token = getUserFromStorage();
-
 //! Login
 export const loginAPI = async ({ email, password }) => {
   const response = await axios.post(`${import.meta.env.VITE_API_KEY}/users/login`, {
@@ -33,7 +30,7 @@ export const changePasswordAPI = async (newPassword) => {
     },
     {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getUserFromStorage()}`,
       },
     }
   );
@@ -51,7 +48,7 @@ export const updateProfileAPI = async ({ email, username }) => {
     },
     {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getUserFromStorage()}`,
       },
     }
   );
